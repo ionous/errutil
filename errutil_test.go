@@ -2,28 +2,30 @@ package errutil
 
 import (
 	"errors"
-	//"fmt"
-	"github.com/stretchr/testify/assert"
-	"strings"
 	"testing"
 )
 
 func TestPrefix(t *testing.T) {
 	err := errors.New("error")
 	err = Prefix(err, "prefix")
-	assert.EqualError(t, err, "prefix: error")
+	if str := err.Error(); str != "prefix: error" {
+		t.Fatal(str)
+	}
 }
 
 func TestAppend(t *testing.T) {
 	one, two := errors.New("1"), errors.New("2")
 	err := Append(one, two)
-	list := strings.Split(err.Error(), "\n")
-	assert.EqualValues(t, []string{"1", "2"}, list)
+	if str := err.Error(); str != "1\n2" {
+		t.Fatal(str)
+	}
 }
 
 func TestErrorFunc(t *testing.T) {
 	err := Func(func() string { return "fun" })
-	assert.EqualError(t, err, "fun")
+	if str := err.Error(); str != "fun" {
+		t.Fatal(str)
+	}
 }
 
 // type Printer struct {
@@ -52,5 +54,7 @@ func (s Stringed) String() string {
 
 func TestJoin(t *testing.T) {
 	joined := New("a", Stringed{"b"}, "c")
-	assert.EqualError(t, joined, "a b c")
+	if str := joined.Error(); str != "a b c" {
+		t.Fatal(str)
+	}
 }
