@@ -5,6 +5,7 @@ import (
 	"strings"
 )
 
+// Panic when true triggers on any new errutil error.
 var Panic = false
 
 // Fmt maps to fmt.Errorf()
