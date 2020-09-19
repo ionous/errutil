@@ -4,6 +4,9 @@ import "strings"
 
 // Append joins two errors into one; either or both can be nil.
 func Append(err error, errs ...error) error {
+	if Panic && err != nil {
+		panic(err)
+	}
 	for _, e := range errs {
 		if e != nil {
 			if err == nil {
@@ -20,6 +23,7 @@ func Append(err error, errs ...error) error {
 
 // multiError chains errors together.
 // it can expand "recursively", allowing an chain of errors.
+// this is similar to https://golang.org/pkg/go/scanner/#ErrorList
 type multiError struct {
 	errors []error
 }
