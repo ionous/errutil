@@ -7,3 +7,5 @@ package errutil
 type Error string
 
 func (e Error) Error() string { return string(e) }
+
+func (e Error) Is(target error) bool { return target == e }

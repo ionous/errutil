@@ -1,22 +1,26 @@
 package errutil
 
-import "strings"
+import (
+	"log"
+	"strings"
+)
 
 // Append joins two errors into one; either or both can be nil.
 func Append(err error, errs ...error) error {
-	if Panic && err != nil {
-		panic(err)
-	}
 	for _, e := range errs {
 		if e != nil {
 			if err == nil {
 				err = e
 			} else if my, ok := err.(multiError); ok {
 				my.errors = append(my.errors, e)
+				err = my
 			} else {
 				err = multiError{[]error{err, e}}
 			}
 		}
+	}
+	if Panic && err != nil {
+		log.Panic(err)
 	}
 	return err
 }

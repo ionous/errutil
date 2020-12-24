@@ -1,13 +1,18 @@
 package errutil
 
+import (
+	"fmt"
+	"log"
+)
+
 // Panic when true triggers on any new errutil error.
 var Panic = false
 
 // Fmt maps to fmt.Errorf()
 func Fmt(format string, parts ...interface{}) error {
-	e := Error(Sprintf(format, parts...))
+	e := fmt.Errorf(format, parts...)
 	if Panic {
-		panic(e)
+		log.Panic(e)
 	}
 	return e
 }
@@ -16,7 +21,7 @@ func Fmt(format string, parts ...interface{}) error {
 func New(parts ...interface{}) error {
 	e := Error(Sprint(parts...))
 	if Panic {
-		panic(e)
+		log.Panic(e)
 	}
 	return e
 }
