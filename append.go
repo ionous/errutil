@@ -51,3 +51,19 @@ func (my multiError) Error() (ret string) {
 	}
 	return
 }
+
+// PrintErrors is a utility function that prints a list of errors to w,
+// one error per line, if the err parameter is a MultiError. Otherwise
+// it prints the err string.
+// w is not a writer b/c log.Writer() doesnt generate log headers automatically
+// and note log.Println and fmt.Println have different signatures, so yay.
+// we use the simplest form possible here.
+func PrintErrors(err error, w func(s string)) {
+	if list, ok := err.(multiError); ok {
+		for _, e := range list.errors {
+			w(e.Error())
+		}
+	} else if err != nil {
+		w(err.Error())
+	}
+}
