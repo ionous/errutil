@@ -1,6 +1,7 @@
 package errutil
 
 import (
+	"errors"
 	"log"
 	"strings"
 )
@@ -48,6 +49,26 @@ func (my multiError) Error() (ret string) {
 			b.WriteString(str)
 		}
 		ret = b.String()
+	}
+	return
+}
+
+func (my multiError) As(i interface{}) (ret bool) {
+	for _, e := range my.errors {
+		if errors.As(e, i) {
+			ret = true
+			break
+		}
+	}
+	return
+}
+
+func (my multiError) Is(e error) (ret bool) {
+	for i, cnt := 0, len(my.errors); i < cnt; i++ {
+		if rev := my.errors[cnt-1-i]; errors.Is(rev, e) {
+			ret = true
+			break
+		}
 	}
 	return
 }
