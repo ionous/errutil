@@ -20,7 +20,7 @@ func Append(err error, errs ...error) error {
 			}
 		}
 	}
-	if Panic && err != nil {
+	if panicNow(err) {
 		log.Panic(err)
 	}
 	return err
