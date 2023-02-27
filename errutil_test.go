@@ -32,7 +32,7 @@ func TestErrorFunc(t *testing.T) {
 // 	prefix string
 // }
 
-// func (p Printer) Errorf(format string, a ...interface{}) error {
+// func (p Printer) Errorf(format string, a ...any) error {
 // 	err := fmt.Errorf(format, a...)
 // 	return Prefix(err, p.prefix)
 // }

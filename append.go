@@ -53,7 +53,7 @@ func (my multiError) Error() (ret string) {
 	return
 }
 
-func (my multiError) As(i interface{}) (ret bool) {
+func (my multiError) As(i any) (ret bool) {
 	for _, e := range my.errors {
 		if errors.As(e, i) {
 			ret = true

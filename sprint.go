@@ -19,13 +19,13 @@ var Fprintf = fmt.Fprintf
 // if the parts themselves are strings or if the parts implement Stringer.
 // When printing errors, who knows what the types implement;
 // we want the error formatting to look good regardless.
-func Sprint(parts ...interface{}) string {
-	// Sprint doesnt add spaces if the parts are strings
-	// or, apparently, if parts implement String()
-	// how annoying.
-	a := make([]string, len(parts))
+func Sprint(parts ...any) string {
+	var b strings.Builder
 	for i, el := range parts {
-		a[i] = fmt.Sprint(el)
+		if i > 0 {
+			b.WriteRune(' ')
+		}
+		b.WriteString(fmt.Sprint(el))
 	}
-	return strings.Join(a, " ")
+	return b.String()
 }
