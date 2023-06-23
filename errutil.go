@@ -15,6 +15,16 @@ func (e Error) Error() string { return string(e) }
 
 func (e Error) Is(target error) bool { return target == e }
 
+// Error type which uses a single string as an error
+// and which implements the generic NoPanic interface.
+type NoPanicError string
+
+func (e NoPanicError) Error() string { return string(e) }
+
+func (e NoPanicError) Is(target error) bool { return target == e }
+
+func (e NoPanicError) NoPanic() {}
+
 // Fmt maps to fmt.Errorf()
 func Fmt(format string, parts ...any) error {
 	e := fmt.Errorf(format, parts...)
